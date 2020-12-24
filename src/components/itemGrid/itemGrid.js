@@ -21,7 +21,10 @@ function ItemGrid({getData, onItemSelected}) {
             }, [getData])
 
    
-
+    function searchItemInfo(idx) {
+        let targetItem = itemList[idx];
+        onItemSelected(targetItem);
+    };
 
    function renderItems(data) {
         return data.map((item, index) => {
@@ -29,7 +32,7 @@ function ItemGrid({getData, onItemSelected}) {
         
             return (
                 
-                <tr key={index} onClick={() => onItemSelected(item.id)}>
+                <tr className="pointer" key={index} onClick={() => searchItemInfo(index)}>
                     <th scope="row">{id}</th>
                     <td>{firstName}</td>
                     <td>{lastName}</td>

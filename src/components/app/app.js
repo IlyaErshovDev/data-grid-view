@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Jumbotron, Row, Container} from 'reactstrap';
+import {Jumbotron, Container} from 'reactstrap';
 import Header from '../header';
 import {SmallAmount} from '../pages';
 import ErrorMessage from '../errorMessage';

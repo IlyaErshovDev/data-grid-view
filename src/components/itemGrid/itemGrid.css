@@ -11,3 +11,7 @@ margin-bottom: 30px;
 .table {
     color: inherit;
 }
+
+.pointer {
+    cursor: pointer;
+}

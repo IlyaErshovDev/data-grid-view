@@ -2,18 +2,31 @@ import React, {Component} from 'react';
 import Spinner from '../spinner';
 import './itemDetails.css';
 
-const Field = ({item, field, label}) => {
+const Fields = ({item}) => {
+    const {description} = item,
+    {streetAddress, city, state, zip} = item.address;
     return (
-        <li className="list-group-item d-flex justify-content-between">
-            <span className="select-err">{label}</span>
-            <span>{item[field]}</span>
-         </li>
+        <ul className="list-group list-group-flush">
+            <li className="dark list-group-item d-flex justify-content-between">
+                <span className="select-err">Описание</span> <b>:  {description}</b>
+            </li>
+            <li className="dark list-group-item d-flex justify-content-between">
+                <span className="select-err">Адрес проживания: </span> <b> {streetAddress}</b>
+            </li>
+            <li className="dark list-group-item d-flex justify-content-between">
+                <span className="select-err">Город: </span> <b> {city}</b>
+            </li>
+            <li className="dark list-group-item d-flex justify-content-between">
+                <span className="select-err">Провинция/штат: </span> <b> {state}</b>
+            </li>
+            <li className="dark list-group-item d-flex justify-content-between">
+                <span className="select-err">Индекс: </span> <b> {zip}</b>
+            </li>
+        </ul>
+       
     )
 };
 
-export {
-    Field
-}
 
 export default class ItemDetails extends Component {
 
@@ -31,10 +44,9 @@ export default class ItemDetails extends Component {
 
     componentDidMount() {
         this.updateItem();
-        
     }
 
-    onCharDetailsLoaded = (item) => {
+    onItemDetailsLoaded = (item) => {
         this.setState({
             item,
             loading: false
@@ -42,8 +54,8 @@ export default class ItemDetails extends Component {
     }
 
     updateItem() {
-        const {getData, itemId} = this.props;
-        if (!itemId) {
+        const {item} = this.props;
+        if (!item) {
             return;
         }
        
@@ -52,14 +64,12 @@ export default class ItemDetails extends Component {
             this.setState({
                 loading: true
             })
-        getData(itemId)
-            .then( this.onCharDetailsLoaded )
-            .catch( () => this.onError())
+            this.onItemDetailsLoaded(item);
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.itemId !== prevProps.itemId) {
+        if (this.props.item !== prevProps.item) {
             this.updateItem();
         }
     } 
@@ -81,7 +91,7 @@ export default class ItemDetails extends Component {
         }
 
         const {item} = this.state,
-        {name} = item;
+        {firstName, lastName} = item;
         
         if (this.state.loading) {
             return (
@@ -93,15 +103,13 @@ export default class ItemDetails extends Component {
 
         return (
             <div className="info-block">
-             <h4>Имя</h4>
-                <ul className="list-group list-group-flush">
-                   {
-                       React.Children.map(this.props.children, (child) => {
-                            return React.cloneElement(child, {item})
-                       })
-                   }
-                </ul>
+             <h4>Выбран пользователь:  {firstName} {lastName}</h4>
+                
+                   <Fields item={item}/>
+                
             </div>
         );
     }
 }
+
+              

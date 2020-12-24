@@ -20,20 +20,20 @@
         return res.map(this._transformData.bind(this))
     }
 
-   
 
     checkData = (prop) => {
         return prop=== '' ? prop = 'No Data' : prop; 
     }
 
     _transformData(item) {
-      
         return {
             id: this.checkData(item.id),
             firstName:  this.checkData(item.firstName),
             lastName:  this.checkData(item.lastName),
             email:  this.checkData(item.email),
             phone:  this.checkData(item.phone),
+            address: {...item.address},
+            description: this.checkData(item.description)
         }
     }
 
