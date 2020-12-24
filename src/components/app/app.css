@@ -1,0 +1,21 @@
+.app {
+background-color: rgb(13, 17, 23);
+color: rgb(201, 209, 217);
+font-size: 16px;
+min-height: 900px;
+height: 100%;
+}
+
+.jumbotron {
+    background-color: rgb(13, 17, 23);
+}
+
+.main-info {
+    padding: 25px 25px 15px 25px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+h4 {
+    margin-bottom: 20px;
+    text-align: center;
+}

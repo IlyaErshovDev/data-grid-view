@@ -1,0 +1,40 @@
+.header-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.header-title {
+    font-size: 24px;
+    color: #fff;
+    margin: 0;
+}
+
+
+.header-links {
+    display: flex;
+    margin: 0;
+    align-items: center;
+    color: #fff;
+    list-style-type: none;  
+}
+
+.header-links  li {
+    margin-right: 20px;
+    font-size: 18px;
+    @media (max-width: 400px) {
+        font-size: 15px;
+        margin-right: 5px;
+    }
+}
+
+@media (max-width: 420px) {
+    .header-title {
+        font-size: 15px;
+    }
+    .header-links  li {
+       font-size: 15px;
+       margin-right: 5px;
+    }
+}
