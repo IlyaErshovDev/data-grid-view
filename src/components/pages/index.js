@@ -1,7 +1,7 @@
 import SmallAmount from './smallAmount';
-import BigAmmount from './bigAmount';
+import BigAmount from './bigAmount';
 
 export {
     SmallAmount,
-    BigAmmount
+    BigAmount
 };

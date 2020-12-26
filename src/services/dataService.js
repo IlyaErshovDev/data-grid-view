@@ -16,7 +16,7 @@
         return res.map(this._transformData.bind(this))
     }
     getBigAmount = async () => {
-        const res = await this.getResource('/?rows=1000&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}');
+        const res = await this.getResource('/?rows=50&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}');
         return res.map(this._transformData.bind(this))
     }
 

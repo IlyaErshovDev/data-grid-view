@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Jumbotron, Container} from 'reactstrap';
 import Header from '../header';
-import {SmallAmount} from '../pages';
+import {SmallAmount, BigAmount} from '../pages';
 import ErrorMessage from '../errorMessage';
 import DataService from '../../services/dataService';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -57,15 +57,7 @@ export default class App extends Component{
                          <Switch>
                                     <Route path='/' exact component={InfoBlock}/>
                                     <Route path='/smallAmount' component={SmallAmount} />
-                                    {/* <Route path='/GOT-API-Service/houses' component={HousesPage} />
-                                    <Route path='/GOT-API-Service/books' exact component={BooksPage} />
-                                    <Route path='/GOT-API-Service/books/:id' render = {
-                                        ({match}) => {
-                                            const {id} = match.params;
-                                            return <BooksItem bookId={id}/>
-                                        }
-                                    } /> */}
-                                    {/* <Route  render= { () => <NonExistent/>}/> */}
+                                    <Route path='/bigAmount' component={BigAmount} />
               
                         </Switch>
                     </Container>
