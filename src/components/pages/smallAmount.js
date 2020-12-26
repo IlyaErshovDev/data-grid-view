@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ItemGrid from '../itemGrid';
+import {Container} from 'reactstrap';
 import ItemDetails from '../itemDetails';
 import ErrorMessage from '../errorMessage';
 import DataService from '../../services/dataService';
@@ -8,13 +9,19 @@ import SearchPanel from '../searchPannel';
 
 export default class SmallAmount extends Component {
     dataService = new DataService();
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedItem: null,
+            term: '',
+            newRec: [],
+            error: false    
+        };
+        this.onItemSelected = this.onItemSelected.bind(this);
+        this.onUpdateSearch = this.onUpdateSearch.bind(this);
+        this.onAddNewRec = this.onAddNewRec.bind(this);
 
-    state = {
-        selectedItem: null,
-        term: '',
-        error: false    
     }
-
 
     componentDidCatch() {
         this.setState({
@@ -32,19 +39,38 @@ export default class SmallAmount extends Component {
         this.setState({term})
       }
 
+    onAddNewRec(val){
+       
+        let newRecord = {
+                id: val.recId,
+                firstName:  val.recFirstName,
+                lastName:  val.recLastName,
+                email:  val.recEmail,
+                phone:  val.recPhone,
+        }
+
+        this.setState(({ newRec }) => ({
+                    newRec: [newRecord, ...newRec],
+                }));    
+    };
     render() {
 
         if(this.state.error) {
             return <ErrorMessage></ErrorMessage>
         }
-       
+      
         return (
             <>
-            <SearchPanel onUpdateSearch = { this.onUpdateSearch }/>
-            <ItemGrid onItemSelected={this.onItemSelected}
-            getData={this.dataService.getSmallAmount}
-            />
-            <ItemDetails item={this.state.selectedItem}/>
+            <Container>
+                <SearchPanel onUpdateSearch = { this.onUpdateSearch } onAddNewRec = { this.onAddNewRec }/>
+            </Container>
+            <Container>
+                <ItemGrid term = {this.state.term} newRec = {this.state.newRec} onItemSelected={this.onItemSelected}
+                getData={this.dataService.getSmallAmount}
+                />
+            </Container>
+            
+                <ItemDetails item={this.state.selectedItem}/>
             </>
         )
     }

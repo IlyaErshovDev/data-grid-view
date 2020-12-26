@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import Spinner from '../spinner';
+import {Container} from 'reactstrap';
 import './itemDetails.css';
 
-const Fields = ({item}) => {
-    const {description} = item,
-    {streetAddress, city, state, zip} = item.address;
+const Fields = ({item, itemAdress = ''}) => {
+    const {description='No Data'} = item,
+    {streetAddress='No Data', city='No Data', state='No Data', zip='No Data'} = itemAdress;
     return (
         <ul className="list-group list-group-flush">
             <li className="dark list-group-item d-flex justify-content-between">
@@ -102,12 +103,15 @@ export default class ItemDetails extends Component {
         }
 
         return (
-            <div className="info-block">
-             <h4>Выбран пользователь:  {firstName} {lastName}</h4>
-                
-                   <Fields item={item}/>
-                
-            </div>
+            <Container className="info-container">
+                 <div className="info-block">
+                    <h4>Выбран пользователь:  {firstName} {lastName}</h4>
+                        
+                        <Fields item={item} itemAdress={item.address}/>
+                        
+                    </div>
+            </Container>
+           
         );
     }
 }

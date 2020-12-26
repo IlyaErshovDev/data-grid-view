@@ -8,7 +8,9 @@ h4 {
     margin-bottom: 20px;
     text-align: center;
 }
-
+.info-container {
+    min-height: 410px;
+}
 span {
     font-weight: bold;
 }

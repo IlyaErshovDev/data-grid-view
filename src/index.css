@@ -12,6 +12,9 @@ code {
     monospace;
 }
 
+button {
+  outline: none !important;
+}
 a {
 	color: #fff !important;
   text-decoration: none !important;
