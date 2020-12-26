@@ -31,7 +31,7 @@ const useSortingFilter = (items, config = null) => {
       setSortConfig({ key, direction });
     };
   
-    return { items: sortedItems, requestSort, sortConfig };
+    return { sortedItems: sortedItems, requestSort, sortConfig };
   };
 
   export default useSortingFilter;
