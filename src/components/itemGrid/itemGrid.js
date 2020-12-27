@@ -1,14 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { Table } from 'reactstrap';
-import Spinner from '../spinner';
-import ErrorMessage from '../errorMessage';
 import useSortingFilter from './useSortingFilter';
 import './itemGrid.css';
 
-function ItemGrid({term, itemList, onItemSelected}) {
+function ItemGrid({ itemList, onItemSelected}) {
    
-    const [loading, updateLoading] = useState(false);
-    const [error, updateError] = useState(false);
+
     const { sortedItems, requestSort, sortConfig } = useSortingFilter(itemList);
 
         const getClassNamesFor = (name) => {
@@ -19,15 +16,14 @@ function ItemGrid({term, itemList, onItemSelected}) {
         };
 
     function searchItemInfo(idx) {
-        let targetItem = itemList[idx];
+        let targetItem = sortedItems[idx];
         onItemSelected(targetItem);
     };
 
     
 
    function renderItems(data) {
-       console.log('data: ', data);
-        
+
         return data.map((item, index) => {
             const {id, firstName, lastName, email, phone} = item;
         
@@ -45,15 +41,6 @@ function ItemGrid({term, itemList, onItemSelected}) {
         })
     }
 
-    
-        
-        if (error) {
-            return <ErrorMessage/>
-        }
-
-        if (loading) {
-            return <div className="load-box"><Spinner/></div> 
-        }
         if (itemList.length === 0 ) {
             return <div className="load-box">
                 <h4>По вашему запросу ничего не найдено</h4>

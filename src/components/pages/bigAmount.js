@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Spinner from '../spinner';
 import {Container} from 'reactstrap';
+import Pagination from '../pagination/pagination';
 import ItemGrid from '../itemGrid';
 import ItemDetails from '../itemDetails';
 import ErrorMessage from '../errorMessage';
@@ -15,11 +16,15 @@ export default class SmallAmount extends Component {
         this.state = {
             itemList: [],
             loading: false,
+            currentItems: [],
+            totalPages: null,
+            currentPage: null,
             selectedItem: null,
             term: '',
             error: false    
         };
-        this._isMounted = false;
+        this.pageLimit = 50;
+        this._isMounted = true;
         this.onItemListLoaded = this.onItemListLoaded.bind(this);
         this.onError = this.onError.bind(this);
         this.onItemSelected = this.onItemSelected.bind(this);
@@ -39,7 +44,7 @@ export default class SmallAmount extends Component {
 
     componentDidMount() {
         const {getBigAmount} = this.dataService;
-        this._isMounted = true;
+        
         if (this._isMounted) {
             this.setState({
                 loading: true
@@ -52,7 +57,19 @@ export default class SmallAmount extends Component {
 
     componentWillUnmount() {
         this._isMounted = false;
-      }
+    }
+
+    onСhangingPageNum = (data) => {
+        const {itemList, term } = this.state,
+        visibleItems = this.itemSearch(itemList, term),
+        // const targetItems = !visibleItems.length ? itemList : visibleItems;  
+        
+        { currentPage, totalPages, pageLimit } = data,
+        offset = (currentPage - 1) * pageLimit,
+        currentItems = visibleItems.slice(offset, offset + pageLimit);
+    
+        this.setState({ currentPage, currentItems, totalPages });
+    }
 
     onError() {
         this.setState({
@@ -74,7 +91,13 @@ export default class SmallAmount extends Component {
     }
 
     onUpdateSearch(term) {
-        this.setState({term})
+        const visibleItems = this.itemSearch(this.state.itemList, term);
+        const currentItems = visibleItems.slice(0, this.pageLimit),
+        totalPages =  Math.ceil(visibleItems.length / this.pageLimit);
+        this.setState({ currentPage: 1, currentItems, totalPages });
+
+        this.setState({term});
+
       }
     
 
@@ -95,9 +118,11 @@ export default class SmallAmount extends Component {
                 phone:  val.recPhone,
         }
 
-        this.setState(({ itemList }) => ({
+        this.setState(({ itemList, currentItems }) => ({
                 itemList: [newRecord, ...itemList],
-                }));    
+                currentItems: [newRecord, ...currentItems],
+                totalPages: Math.ceil([newRecord, ...itemList].length / this.pageLimit)
+                }));
     };
     render() {
 
@@ -111,17 +136,32 @@ export default class SmallAmount extends Component {
                      <div className="load-box"><Spinner/></div> </>
            }
             
-        const {itemList, term} = this.state,
-        visibleItems = this.itemSearch(itemList, term);
-        
+            const {itemList, currentItems, currentPage, totalPages, term, } = this.state,
+            visibleItems = this.itemSearch(itemList, term),
+            totalItems = visibleItems.length;
+
         return (
             <>
             <Container>
                 <SearchPanel onUpdateSearch = { this.onUpdateSearch } onAddNewRec = { this.onAddNewRec }/>
             </Container>
             <Container>
-            
-                <ItemGrid  itemList = {visibleItems} term = {this.state.term}
+            <div className="w-100 px-2 py-3 d-flex flex-row flex-wrap align-items-center justify-content-between">
+            <div className="d-flex flex-row align-items-center">
+              <h3 className="text-dark py-2 pr-4 m-0 border-gray border-right">
+                Всего записей: <strong className="text-secondary">{totalItems}</strong> 
+              </h3>
+              { currentPage && (
+                <span className="current-page d-inline-block h-100 pl-4 text-secondary">
+                  Страница <span className="font-weight-bold">{ currentPage }</span> / <span className="font-weight-bold">{ totalPages }</span>
+                </span>
+              ) }
+            </div>
+            <div className="d-flex flex-row py-4 align-items-center">
+              <Pagination term = {this.state.term} totalRecords={totalItems} pageLimit={this.pageLimit} pageNeighbours={1} onPageChanged={this.onСhangingPageNum} />
+            </div>
+          </div>
+                <ItemGrid  itemList = {currentItems} 
                      onItemSelected={this.onItemSelected}/>
             </Container>
             
